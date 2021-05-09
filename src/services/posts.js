@@ -36,11 +36,31 @@ const remove = async (post) => {
   return res.data;
 };
 
+const comment = async (postId, comment) => {
+  const res = await axios.post(
+    `${baseUrl}/${postId}/comments`,
+    comment,
+    config
+  );
+  return res.data;
+};
+
+const react = async (postId, reactions) => {
+  const res = await axios.put(
+    `${baseUrl}/${postId}/reactions`,
+    reactions,
+    config
+  );
+  return res.data;
+};
+
 const postService = {
   readAll,
   create,
   update,
   remove,
+  comment,
+  react,
   setAuthorizationHeader,
 };
 

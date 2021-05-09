@@ -5,6 +5,7 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import PostAuthor from "./PostAuthor";
 import PostDate from "./PostDate";
+import PostReactions from "./PostReactions";
 
 const PostList = () => {
   const posts = useSelector(({ posts }) => {
@@ -23,6 +24,7 @@ const PostList = () => {
                 <PostAuthor post={post} /> <PostDate post={post} />
               </Card.Subtitle>
               <Card.Text>{post.content.slice(0, 50)}</Card.Text>
+              <PostReactions post={post} />
             </Card.Body>
             <Card.Footer>
               <Button variant="primary" as={Link} to={`/posts/${post.id}`}>

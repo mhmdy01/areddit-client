@@ -7,6 +7,8 @@ import Button from "react-bootstrap/Button";
 import PostAuthor from "./PostAuthor";
 import PostDate from "./PostDate";
 import DeletePost from "./DeletePost";
+import PostComments from "./PostComments";
+import PostReactions from "./PostReactions";
 
 const Post = ({ history, match }) => {
   const { id: postId } = match.params;
@@ -46,7 +48,9 @@ const Post = ({ history, match }) => {
             </>
           )}
         </div>
+        <PostReactions post={post} />
       </Jumbotron>
+      <PostComments post={post} />
     </div>
   );
 };

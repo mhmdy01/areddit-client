@@ -14,6 +14,14 @@ const postReducer = (state = [], action) => {
       return state.map((blog) =>
         blog.id === updatedPost.id ? updatedPost : blog
       );
+    case "ADD_COMMENT":
+      return state.map((post) =>
+        post.id === action.payload.id ? action.payload : post
+      );
+    case "ADD_REACTION":
+      return state.map((post) =>
+        post.id === action.payload.id ? action.payload : post
+      );
     default:
       return state;
   }
@@ -95,6 +103,50 @@ export const editPost = (changedPost, history) => {
         payload: updatedPost,
       });
       history.push(`/posts/${updatedPost.id}`);
+    } catch (error) {
+      console.log({ ...error });
+    }
+  };
+};
+
+export const addComment = (postToUpdate, comment) => {
+  return async (dispatch) => {
+    try {
+      const updatedPost = await postService.comment(postToUpdate.id, {
+        content: comment,
+      });
+      dispatch({
+        type: "ADD_COMMENT",
+        payload: updatedPost,
+      });
+    } catch (error) {
+      console.log({ ...error });
+    }
+  };
+};
+
+export const addReaction = (postToUpdate, reaction) => {
+  const changedReactions = {
+    ...postToUpdate.reactions,
+    [reaction]: postToUpdate.reactions[reaction] + 1,
+  };
+  return async (dispatch) => {
+    try {
+      // console.log(
+      //   "adding reaction",
+      //   postToUpdate.reactions,
+      //   reaction,
+      //   changedReactions
+      // );
+      // return;
+      const updatedPost = await postService.react(
+        postToUpdate.id,
+        changedReactions
+      );
+      dispatch({
+        type: "ADD_REACTION",
+        payload: updatedPost,
+      });
     } catch (error) {
       console.log({ ...error });
     }
